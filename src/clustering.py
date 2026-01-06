@@ -4,12 +4,10 @@ from sklearn.preprocessing import StandardScaler
 
 from recommend import recommend_resources
 
-
 # Load data
 data = pd.read_csv("data/students.csv")
 
-# Features for clusteringpip install pandas numpy scikit-learn
-
+# Features for clustering
 features = data[
     ["math_score", "cs_score", "ai_score", "study_hours", "interest_level"]
 ]
