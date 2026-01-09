@@ -1,3 +1,5 @@
+from src.model import load_model
+
 import streamlit as st
 import pandas as pd
 from sklearn.cluster import KMeans
@@ -17,21 +19,11 @@ interest = st.slider("Interest Level (1-5)", 1, 5, 3)
 
 if st.button("Get Recommendation"):
     # Load existing student data
-    data = pd.read_csv("data/students.csv")
+    model, scaler = load_model()
 
-    features = data[
-        ["math_score", "cs_score", "ai_score", "study_hours", "interest_level"]
-    ]
-
-    scaler = StandardScaler()
-    scaled_features = scaler.fit_transform(features)
-
-    kmeans = KMeans(n_clusters=3, random_state=42)
-    kmeans.fit(scaled_features)
-
-    # Predict cluster for new student
     new_student = scaler.transform([[math, cs, ai, hours, interest]])
-    cluster = kmeans.predict(new_student)[0]
+    cluster = model.predict(new_student)[0]
+
 
     st.subheader(f"Student Profile Cluster: {cluster}")
     st.subheader("Recommended Learning Plan")
